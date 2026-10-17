@@ -3,6 +3,18 @@
 This file is the entry point for AI coding agents working in this repository. Keep it small: detailed guidance lives under
 `.agents/`, and discoverable repo skills live under `.agents/skills/*/SKILL.md`.
 
+## Fork Policy
+
+This is a personal fork of chen08209/FlClash serving the owner's own needs. Upstream contribution is not a goal;
+changes do not need to consider upstream mergeability.
+
+- Android on arm64-v8a is the only supported target. Desktop code remains in the repository but is out of scope for
+  new work: do not extend it, and verify Android-facing changes through the Dart and Android suites.
+- A display-name rename is planned. Keep it at the packaging level (launcher label, in-app strings); the
+  `applicationId` stays `com.follow.clash`, which stored data, the system VPN grant, and Android service arbitration
+  depend on.
+- Agent configuration lives only in `AGENTS.md` and `.agents/`; do not add config for other agent tools.
+
 ## Start Here
 
 Read these files before making changes:
@@ -19,9 +31,8 @@ Read these only when the task touches their area:
   profile, or asks for an Android VPN restart.
 - [.agents/surfaces.md](.agents/surfaces.md): fill levels, selection and status colors, and the few borders that
   remain, for any change to how a surface is colored.
-- [.agents/agent-config.md](.agents/agent-config.md): how to choose between `AGENTS.md`, `.agents`, skills, Codex config,
-  command rules, and hooks.
-- [.agents/worktrees.md](.agents/worktrees.md): worktree hygiene across Claude Code, Codex, and Gemini.
+- [.agents/agent-config.md](.agents/agent-config.md): how to choose between `AGENTS.md`, `.agents`, skills, and hooks.
+- [.agents/worktrees.md](.agents/worktrees.md): worktree hygiene.
 - [.agents/flutter-upgrade.md](.agents/flutter-upgrade.md): SDK-pinned workarounds to recheck before changing the
   Flutter version.
 - [.agents/skills.md](.agents/skills.md): index of repo-scoped skills in `.agents/skills/`.
@@ -72,6 +83,5 @@ Read these only when the task touches their area:
 
 ## Repo Skills
 
-Use repo skills from `.agents/skills/` when a task matches their descriptions; `.claude/skills/` symlinks expose the
-same skills to Claude Code. Current skills cover localization, UI work, core/platform changes, and pre-commit
-structural quality review.
+Use repo skills from `.agents/skills/` when a task matches their descriptions. Current skills cover localization, UI
+work, core/platform changes, and pre-commit structural quality review.

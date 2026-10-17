@@ -1,6 +1,6 @@
 # Rules
 
-These are repository coding and testing conventions. Codex command permission rules belong in `.codex/rules/*.rules`; see `.agents/agent-config.md` before adding those.
+These are repository coding and testing conventions.
 
 ## Dart and Flutter Style
 
@@ -142,9 +142,7 @@ healthy changes sit at or under 3.6%, while the core fix that prompted the gate 
 It is a ceiling on frequency, not a target to fill. Do not read `core/`'s inherited mihomo density as a quota either —
 it is forked upstream code, not a house style.
 
-Three gates run the same script, and they do not have equal force. The `PostToolUse` hooks in `.claude/settings.json`
-and `.codex/config.toml` run after the tool and hand offending lines back as feedback; neither can undo the completed
-write. The `comment-density` pre-commit hook fails the commit, and it is the only hard gate that covers every tool.
+The `comment-density` pre-commit hook fails the commit.
 Behavior is pinned by `tool/hooks/comment_density_test.sh`, which CI runs through `tool/hooks/test.sh`.
 
 When a change genuinely warrants more, raise the ceiling for that run rather than working around it:
