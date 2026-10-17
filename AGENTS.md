@@ -10,9 +10,11 @@ changes do not need to consider upstream mergeability.
 
 - Android on arm64-v8a is the only supported target. Desktop code remains in the repository but is out of scope for
   new work: do not extend it, and verify Android-facing changes through the Dart and Android suites.
-- A display-name rename is planned. Keep it at the packaging level (launcher label, in-app strings); the
-  `applicationId` stays `com.follow.clash`, which stored data, the system VPN grant, and Android service arbitration
-  depend on.
+- The app is named YiFENG Clash and installs as `com.yifeng.clash`, so it coexists with an installed FlClash rather
+  than replacing it. The MethodChannel prefixes move with the application id and live in exactly two places that must
+  stay in lockstep: `lib/common/constant.dart` (`packageName`) and `Components.PACKAGE_NAME` on the Android side; the
+  Kotlin class names keep the `com.follow.clash` code namespace (`Components.CODE_PACKAGE`). Changing the application
+  id again means a fresh install, a new VPN grant, and empty data.
 - Agent configuration lives only in `AGENTS.md` and `.agents/`; do not add config for other agent tools.
 
 ## Start Here
