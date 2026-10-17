@@ -313,6 +313,38 @@ void main() {
   );
 
   test(
+    'overrides DAO supports insert, update, lookup, and replacement',
+    () async {
+      final first = OverrideItem(
+        id: 10,
+        label: 'First',
+        lastUpdateTime: DateTime(2026),
+      );
+      final second = OverrideItem(
+        id: 11,
+        label: 'Second',
+        ext: OverrideType.javascript,
+        global: true,
+        lastUpdateTime: DateTime(2026, 2),
+        order: 1,
+      );
+
+      await database.overrides.put(first.toCompanion());
+      expect(await database.overridesDao.get(10).getSingle(), first);
+
+      final updated = first.copyWith(label: 'Updated', global: true);
+      await database.overrides.put(updated.toCompanion());
+      expect(await database.overridesDao.get(10).getSingle(), updated);
+
+      await database.batch(
+        (b) => database.overridesDao.setAllWithBatch(b, [second]),
+      );
+      expect(await database.overridesDao.query().get(), [second]);
+      expect(await database.overridesDao.get(10).getSingleOrNull(), null);
+    },
+  );
+
+  test(
     'proxy groups DAO round-trips all options and rewrites proxy names',
     () async {
       const profile = Profile(id: 1, autoUpdateDuration: Duration.zero);
@@ -632,6 +664,7 @@ void main() {
           const [],
           const [],
           const [],
+          const [],
           customProxies: const [home, work],
           proxyDialers: const [
             ...dialers,
@@ -815,6 +848,7 @@ void main() {
       await database.restore(
         [profile],
         const [],
+        const [],
         [rule, orphan],
         const [
           DisabledRule(profileId: 1, ruleId: 404),
@@ -848,6 +882,7 @@ void main() {
       await database.restore(
         [profile],
         const [],
+        const [],
         [stale],
         const [],
         const [],
@@ -865,6 +900,7 @@ void main() {
       );
       await database.restore(
         [profile],
+        const [],
         const [],
         rules,
         const [],
@@ -896,9 +932,15 @@ void main() {
         name: 'Kept',
         type: GroupType.Selector,
       );
-      await database.restore([keptProfile], const [], [keptRule], const [], [
-        keptGroup,
-      ], isOverride: true);
+      await database.restore(
+        [keptProfile],
+        const [],
+        const [],
+        [keptRule],
+        const [],
+        [keptGroup],
+        isOverride: true,
+      );
 
       const backupProfile = Profile(id: 2, autoUpdateDuration: Duration.zero);
       const backupGroup = ProxyGroup(
@@ -909,6 +951,7 @@ void main() {
       );
       await database.restore(
         [backupProfile],
+        const [],
         const [],
         const [],
         const [],
@@ -943,6 +986,7 @@ void main() {
       await database.restore(
         [profile],
         const [],
+        const [],
         [rule],
         const [],
         const [],
@@ -955,7 +999,9 @@ void main() {
         name: 'Group',
         type: GroupType.Selector,
       );
-      await database.restore(const [], const [], const [], const [], [group]);
+      await database.restore(const [], const [], const [], const [], const [], [
+        group,
+      ]);
 
       expect(
         (await database.rulesDao.queryProfileRules(1).get()).single.id,
@@ -1010,6 +1056,7 @@ void main() {
       const [],
       const [],
       const [],
+      const [],
       clashProviders: const [rules],
       isOverride: true,
     );
@@ -1045,6 +1092,7 @@ void main() {
     await database.restore(
       [profile],
       [script],
+      const [],
       [global, rule],
       const [DisabledRule(profileId: 1, ruleId: 45)],
       [group],

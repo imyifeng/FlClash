@@ -751,6 +751,89 @@ extension ScriptExt on Script {
 }
 
 @freezed
+abstract class OverrideItem with _$OverrideItem {
+  const factory OverrideItem({
+    required int id,
+    required String label,
+    @Default(OverrideType.yaml) OverrideType ext,
+    required DateTime lastUpdateTime,
+    @Default(false) bool global,
+    String? url,
+    int? order,
+  }) = _Override;
+
+  factory OverrideItem.fromJson(Map<String, Object?> json) =>
+      _$OverrideItemFromJson(json);
+
+  factory OverrideItem.create({
+    required String label,
+    OverrideType ext = OverrideType.yaml,
+    String? url,
+  }) {
+    return OverrideItem(
+      id: snowflake.id,
+      label: label,
+      ext: ext,
+      lastUpdateTime: DateTime.now(),
+      url: url,
+    );
+  }
+}
+
+extension OverridesExt on List<OverrideItem> {
+  OverrideItem? get(int? id) {
+    if (id == null) {
+      return null;
+    }
+    final index = indexWhere((override) => override.id == id);
+    if (index != -1) {
+      return this[index];
+    }
+    return null;
+  }
+
+  bool hasLabel(String label, {OverrideItem? except}) {
+    return any(
+      (override) => override.id != except?.id && override.label == label,
+    );
+  }
+
+  String uniqueLabel(String name, {required String fallback}) {
+    return uniqueLabelFor(
+      name,
+      fallback: fallback,
+      taken: (label) => hasLabel(label),
+    );
+  }
+}
+
+extension OverrideExt on OverrideItem {
+  String get fileName => ext == OverrideType.javascript ? '$id.js' : '$id.yaml';
+
+  String get updatingKey => 'override_$id';
+
+  Future<String> get path async => appPath.getOverridePath(fileName);
+
+  Future<FileInfo?> get fileInfo async => File(await path).getFileInfo();
+
+  Future<String?> get content async => readTextFileTask(await path);
+
+  Future<OverrideItem> save(String content) async {
+    final file = File(await path);
+    if (!await file.exists()) {
+      await file.create(recursive: true);
+    }
+    await file.writeAsString(content);
+    return copyWith(lastUpdateTime: DateTime.now());
+  }
+
+  Future<OverrideItem> update() async {
+    final response = await request.getTextResponseForUrl(url!);
+    return save(response.data ?? '');
+  }
+}
+
+@freezed
 abstract class ClashProvider with _$ClashProvider {
   const factory ClashProvider({
     required int id,

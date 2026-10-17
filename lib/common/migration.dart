@@ -55,6 +55,7 @@ class _AppMigrationStore implements MigrationStore {
     return database.restore(
       data.profiles,
       data.scripts,
+      data.overrides,
       data.rules,
       data.disabledRules,
       data.proxyGroups,

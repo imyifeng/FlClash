@@ -36,6 +36,24 @@ class StringListConverter extends TypeConverter<List<String>, String> {
   }
 }
 
+class IntListConverter extends TypeConverter<List<int>, String> {
+  const IntListConverter();
+
+  @override
+  List<int> fromSql(String fromDb) {
+    return decodeOrRestoreDefault(
+      'int list',
+      () => List<int>.from(json.decode(fromDb)),
+      () => [],
+    );
+  }
+
+  @override
+  String toSql(List<int> value) {
+    return json.encode(value.toList());
+  }
+}
+
 class StringSetConverter extends TypeConverter<Set<String>, String> {
   const StringSetConverter();
 

@@ -704,6 +704,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "geoUpdated": m28,
     "geodataLoader": MessageLookupByLibrary.simpleMessage("Geo 저메모리 모드"),
     "global": MessageLookupByLibrary.simpleMessage("전역"),
+    "globalOverridesAlwaysApply": MessageLookupByLibrary.simpleMessage(
+      "전역 덮어쓰기는 모든 프로필에 적용됩니다",
+    ),
     "go": MessageLookupByLibrary.simpleMessage("이동"),
     "goDownload": MessageLookupByLibrary.simpleMessage("다운로드"),
     "goToConfigureAddedRules": MessageLookupByLibrary.simpleMessage(
@@ -1016,6 +1019,10 @@ class MessageLookup extends MessageLookupByLibrary {
       "보안 연결에 실패했습니다. 서버 인증서가 올바르지 않거나 연결이 가로채이고 있을 수 있습니다",
     ),
     "networkType": MessageLookupByLibrary.simpleMessage("네트워크 유형"),
+    "newJavaScriptOverride": MessageLookupByLibrary.simpleMessage(
+      "새 JavaScript 덮어쓰기",
+    ),
+    "newYamlOverride": MessageLookupByLibrary.simpleMessage("새 YAML 덮어쓰기"),
     "nextMatch": MessageLookupByLibrary.simpleMessage("다음 결과"),
     "no": MessageLookupByLibrary.simpleMessage("아니요"),
     "noData": MessageLookupByLibrary.simpleMessage("데이터 없음"),
@@ -1061,6 +1068,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "outboundExit": MessageLookupByLibrary.simpleMessage("출구"),
     "outboundIp": MessageLookupByLibrary.simpleMessage("아웃바운드 IP"),
     "outboundMode": MessageLookupByLibrary.simpleMessage("아웃바운드 모드"),
+    "override": MessageLookupByLibrary.simpleMessage("덮어쓰기"),
     "overrideDestination": MessageLookupByLibrary.simpleMessage("대상 덮어쓰기"),
     "overrideDestinationDesc": MessageLookupByLibrary.simpleMessage(
       "대상 덮어쓰기는 원래 주소 대신 스니핑한 도메인으로 연결합니다.",
@@ -1076,6 +1084,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "pickFromAlbum": MessageLookupByLibrary.simpleMessage("앨범에서 선택"),
     "pinWindow": MessageLookupByLibrary.simpleMessage("창 고정"),
     "pleaseBindWebDAV": MessageLookupByLibrary.simpleMessage("WebDAV를 연결하세요"),
+    "pleaseEnterOverrideName": MessageLookupByLibrary.simpleMessage(
+      "덮어쓰기 이름을 입력하세요",
+    ),
     "pleaseEnterScriptName": MessageLookupByLibrary.simpleMessage(
       "스크립트 이름을 입력하세요",
     ),

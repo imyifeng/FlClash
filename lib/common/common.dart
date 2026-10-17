@@ -49,4 +49,5 @@ export 'system_fonts.dart';
 export 'task.dart';
 export 'task_pool.dart';
 export 'webdav.dart';
+export 'override_merge.dart';
 export 'yaml.dart';

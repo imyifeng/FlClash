@@ -900,6 +900,9 @@ class MessageLookup extends MessageLookupByLibrary {
       "Mode Geo à faible mémoire",
     ),
     "global": MessageLookupByLibrary.simpleMessage("Global"),
+    "globalOverridesAlwaysApply": MessageLookupByLibrary.simpleMessage(
+      "Les remplacements globaux s\'appliquent à tous les profils",
+    ),
     "go": MessageLookupByLibrary.simpleMessage("Aller"),
     "goDownload": MessageLookupByLibrary.simpleMessage("Télécharger"),
     "goToConfigureAddedRules": MessageLookupByLibrary.simpleMessage(
@@ -1289,6 +1292,12 @@ class MessageLookup extends MessageLookupByLibrary {
       "Échec de la connexion sécurisée. Le certificat du serveur est peut-être invalide, ou la connexion est interceptée",
     ),
     "networkType": MessageLookupByLibrary.simpleMessage("Type de réseau"),
+    "newJavaScriptOverride": MessageLookupByLibrary.simpleMessage(
+      "Nouveau remplacement JavaScript",
+    ),
+    "newYamlOverride": MessageLookupByLibrary.simpleMessage(
+      "Nouveau remplacement YAML",
+    ),
     "nextMatch": MessageLookupByLibrary.simpleMessage("Résultat suivant"),
     "no": MessageLookupByLibrary.simpleMessage("Non"),
     "noData": MessageLookupByLibrary.simpleMessage("Aucune donnée"),
@@ -1350,6 +1359,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "outboundExit": MessageLookupByLibrary.simpleMessage("Sortie"),
     "outboundIp": MessageLookupByLibrary.simpleMessage("IP sortante"),
     "outboundMode": MessageLookupByLibrary.simpleMessage("Mode sortant"),
+    "override": MessageLookupByLibrary.simpleMessage("Remplacement"),
     "overrideDestination": MessageLookupByLibrary.simpleMessage(
       "Remplacer la destination",
     ),
@@ -1374,6 +1384,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "pinWindow": MessageLookupByLibrary.simpleMessage("Épingler la fenêtre"),
     "pleaseBindWebDAV": MessageLookupByLibrary.simpleMessage(
       "Veuillez lier un WebDAV",
+    ),
+    "pleaseEnterOverrideName": MessageLookupByLibrary.simpleMessage(
+      "Veuillez saisir un nom de remplacement",
     ),
     "pleaseEnterScriptName": MessageLookupByLibrary.simpleMessage(
       "Veuillez saisir un nom de script",

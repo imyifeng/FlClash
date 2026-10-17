@@ -844,6 +844,9 @@ class MessageLookup extends MessageLookupByLibrary {
       "Geo low-memory mode",
     ),
     "global": MessageLookupByLibrary.simpleMessage("Global"),
+    "globalOverridesAlwaysApply": MessageLookupByLibrary.simpleMessage(
+      "Global overrides apply to every profile",
+    ),
     "go": MessageLookupByLibrary.simpleMessage("Go"),
     "goDownload": MessageLookupByLibrary.simpleMessage("Download"),
     "goToConfigureAddedRules": MessageLookupByLibrary.simpleMessage(
@@ -1197,6 +1200,12 @@ class MessageLookup extends MessageLookupByLibrary {
       "Secure connection failed. The server\'s certificate may be invalid, or the connection is being intercepted",
     ),
     "networkType": MessageLookupByLibrary.simpleMessage("Network type"),
+    "newJavaScriptOverride": MessageLookupByLibrary.simpleMessage(
+      "New JavaScript override",
+    ),
+    "newYamlOverride": MessageLookupByLibrary.simpleMessage(
+      "New YAML override",
+    ),
     "nextMatch": MessageLookupByLibrary.simpleMessage("Next match"),
     "no": MessageLookupByLibrary.simpleMessage("No"),
     "noData": MessageLookupByLibrary.simpleMessage("No data"),
@@ -1258,6 +1267,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "outboundExit": MessageLookupByLibrary.simpleMessage("Exit"),
     "outboundIp": MessageLookupByLibrary.simpleMessage("Outbound IP"),
     "outboundMode": MessageLookupByLibrary.simpleMessage("Outbound mode"),
+    "override": MessageLookupByLibrary.simpleMessage("Override"),
     "overrideDestination": MessageLookupByLibrary.simpleMessage(
       "Override destination",
     ),
@@ -1276,6 +1286,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "pinWindow": MessageLookupByLibrary.simpleMessage("Pin window"),
     "pleaseBindWebDAV": MessageLookupByLibrary.simpleMessage(
       "Please bind WebDAV",
+    ),
+    "pleaseEnterOverrideName": MessageLookupByLibrary.simpleMessage(
+      "Please enter an override name",
     ),
     "pleaseEnterScriptName": MessageLookupByLibrary.simpleMessage(
       "Please enter a script name",

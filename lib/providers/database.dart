@@ -374,6 +374,57 @@ class Scripts extends _$Scripts with AsyncNotifierMixin, OptimisticMixin {
 }
 
 @riverpod
+class Overrides extends _$Overrides with AsyncNotifierMixin, OptimisticMixin {
+  @override
+  Stream<List<OverrideItem>> build() {
+    final query = database.overridesDao.query();
+    return settled(query.watch(), query.get);
+  }
+
+  @override
+  List<OverrideItem> get value => state.value ?? [];
+
+  void put(OverrideItem override) {
+    final next = List<OverrideItem>.from(value);
+    final index = next.indexWhere((item) => item.id == override.id);
+    if (index != -1) {
+      next[index] = override;
+    } else {
+      next.add(override);
+    }
+    optimistic(next, () => database.overrides.put(override.toCompanion()));
+  }
+
+  void del(int id) {
+    final next = List<OverrideItem>.from(value);
+    final index = next.indexWhere((item) => item.id == id);
+    if (index == -1) return;
+    next.removeAt(index);
+    optimistic(next, () => database.overrides.remove((t) => t.id.equals(id)));
+  }
+
+  void order(int oldIndex, int newIndex) {
+    final next = value.copyAndReorder(oldIndex, newIndex);
+    final changed = <OverridesCompanion>[];
+    next.forEachIndexed((index, item) {
+      if (item.order != index) {
+        next[index] = item.copyWith(order: index);
+        changed.add(item.toCompanion(index));
+      }
+    });
+    optimistic(next, () => database.overridesDao.putAll(changed));
+  }
+
+  @override
+  bool updateShouldNotify(
+    AsyncValue<List<OverrideItem>> previous,
+    AsyncValue<List<OverrideItem>> next,
+  ) {
+    return !overrideListEquality.equals(previous.value, next.value);
+  }
+}
+
+@riverpod
 class ClashProviders extends _$ClashProviders
     with AsyncNotifierMixin, OptimisticMixin {
   @override

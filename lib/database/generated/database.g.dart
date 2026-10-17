@@ -181,6 +181,16 @@ class $ProfilesTable extends Profiles
     requiredDuringInsert: false,
   ).withConverter<ProfileOverrides?>($ProfilesTable.$converteroverrides);
   @override
+  late final GeneratedColumnWithTypeConverter<List<int>, String> overrideIds =
+      GeneratedColumn<String>(
+        'override_ids',
+        aliasedName,
+        false,
+        type: DriftSqlType.string,
+        requiredDuringInsert: false,
+        defaultValue: const Constant('[]'),
+      ).withConverter<List<int>>($ProfilesTable.$converteroverrideIds);
+  @override
   List<GeneratedColumn> get $columns => [
     id,
     type,
@@ -199,6 +209,7 @@ class $ProfilesTable extends Profiles
     unfoldSet,
     order,
     overrides,
+    overrideIds,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -387,6 +398,12 @@ class $ProfilesTable extends Profiles
           data['${effectivePrefix}overrides'],
         ),
       ),
+      overrideIds: $ProfilesTable.$converteroverrideIds.fromSql(
+        attachedDatabase.typeMapping.read(
+          DriftSqlType.string,
+          data['${effectivePrefix}override_ids'],
+        )!,
+      ),
     );
   }
 
@@ -407,6 +424,8 @@ class $ProfilesTable extends Profiles
       const StringSetConverter();
   static TypeConverter<ProfileOverrides?, String?> $converteroverrides =
       const ProfileOverridesConverter();
+  static TypeConverter<List<int>, String> $converteroverrideIds =
+      const IntListConverter();
 }
 
 class RawProfile extends DataClass implements Insertable<RawProfile> {
@@ -427,6 +446,7 @@ class RawProfile extends DataClass implements Insertable<RawProfile> {
   final Set<String> unfoldSet;
   final int? order;
   final ProfileOverrides? overrides;
+  final List<int> overrideIds;
   const RawProfile({
     required this.id,
     required this.type,
@@ -445,6 +465,7 @@ class RawProfile extends DataClass implements Insertable<RawProfile> {
     required this.unfoldSet,
     this.order,
     this.overrides,
+    required this.overrideIds,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -502,6 +523,11 @@ class RawProfile extends DataClass implements Insertable<RawProfile> {
         $ProfilesTable.$converteroverrides.toSql(overrides),
       );
     }
+    {
+      map['override_ids'] = Variable<String>(
+        $ProfilesTable.$converteroverrideIds.toSql(overrideIds),
+      );
+    }
     return map;
   }
 
@@ -540,6 +566,7 @@ class RawProfile extends DataClass implements Insertable<RawProfile> {
       overrides: overrides == null && nullToAbsent
           ? const Value.absent()
           : Value(overrides),
+      overrideIds: Value(overrideIds),
     );
   }
 
@@ -576,6 +603,7 @@ class RawProfile extends DataClass implements Insertable<RawProfile> {
       unfoldSet: serializer.fromJson<Set<String>>(json['unfoldSet']),
       order: serializer.fromJson<int?>(json['order']),
       overrides: serializer.fromJson<ProfileOverrides?>(json['overrides']),
+      overrideIds: serializer.fromJson<List<int>>(json['overrideIds']),
     );
   }
   @override
@@ -607,6 +635,7 @@ class RawProfile extends DataClass implements Insertable<RawProfile> {
       'unfoldSet': serializer.toJson<Set<String>>(unfoldSet),
       'order': serializer.toJson<int?>(order),
       'overrides': serializer.toJson<ProfileOverrides?>(overrides),
+      'overrideIds': serializer.toJson<List<int>>(overrideIds),
     };
   }
 
@@ -628,6 +657,7 @@ class RawProfile extends DataClass implements Insertable<RawProfile> {
     Set<String>? unfoldSet,
     Value<int?> order = const Value.absent(),
     Value<ProfileOverrides?> overrides = const Value.absent(),
+    List<int>? overrideIds,
   }) => RawProfile(
     id: id ?? this.id,
     type: type ?? this.type,
@@ -653,6 +683,7 @@ class RawProfile extends DataClass implements Insertable<RawProfile> {
     unfoldSet: unfoldSet ?? this.unfoldSet,
     order: order.present ? order.value : this.order,
     overrides: overrides.present ? overrides.value : this.overrides,
+    overrideIds: overrideIds ?? this.overrideIds,
   );
   RawProfile copyWithCompanion(ProfilesCompanion data) {
     return RawProfile(
@@ -691,6 +722,9 @@ class RawProfile extends DataClass implements Insertable<RawProfile> {
       unfoldSet: data.unfoldSet.present ? data.unfoldSet.value : this.unfoldSet,
       order: data.order.present ? data.order.value : this.order,
       overrides: data.overrides.present ? data.overrides.value : this.overrides,
+      overrideIds: data.overrideIds.present
+          ? data.overrideIds.value
+          : this.overrideIds,
     );
   }
 
@@ -713,7 +747,8 @@ class RawProfile extends DataClass implements Insertable<RawProfile> {
           ..write('selectedMap: $selectedMap, ')
           ..write('unfoldSet: $unfoldSet, ')
           ..write('order: $order, ')
-          ..write('overrides: $overrides')
+          ..write('overrides: $overrides, ')
+          ..write('overrideIds: $overrideIds')
           ..write(')'))
         .toString();
   }
@@ -737,6 +772,7 @@ class RawProfile extends DataClass implements Insertable<RawProfile> {
     unfoldSet,
     order,
     overrides,
+    overrideIds,
   );
   @override
   bool operator ==(Object other) =>
@@ -758,7 +794,8 @@ class RawProfile extends DataClass implements Insertable<RawProfile> {
           other.selectedMap == this.selectedMap &&
           other.unfoldSet == this.unfoldSet &&
           other.order == this.order &&
-          other.overrides == this.overrides);
+          other.overrides == this.overrides &&
+          other.overrideIds == this.overrideIds);
 }
 
 class ProfilesCompanion extends UpdateCompanion<RawProfile> {
@@ -779,6 +816,7 @@ class ProfilesCompanion extends UpdateCompanion<RawProfile> {
   final Value<Set<String>> unfoldSet;
   final Value<int?> order;
   final Value<ProfileOverrides?> overrides;
+  final Value<List<int>> overrideIds;
   const ProfilesCompanion({
     this.id = const Value.absent(),
     this.type = const Value.absent(),
@@ -797,6 +835,7 @@ class ProfilesCompanion extends UpdateCompanion<RawProfile> {
     this.unfoldSet = const Value.absent(),
     this.order = const Value.absent(),
     this.overrides = const Value.absent(),
+    this.overrideIds = const Value.absent(),
   });
   ProfilesCompanion.insert({
     this.id = const Value.absent(),
@@ -816,6 +855,7 @@ class ProfilesCompanion extends UpdateCompanion<RawProfile> {
     required Set<String> unfoldSet,
     this.order = const Value.absent(),
     this.overrides = const Value.absent(),
+    this.overrideIds = const Value.absent(),
   }) : type = Value(type),
        label = Value(label),
        url = Value(url),
@@ -842,6 +882,7 @@ class ProfilesCompanion extends UpdateCompanion<RawProfile> {
     Expression<String>? unfoldSet,
     Expression<int>? order,
     Expression<String>? overrides,
+    Expression<String>? overrideIds,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -862,6 +903,7 @@ class ProfilesCompanion extends UpdateCompanion<RawProfile> {
       if (unfoldSet != null) 'unfold_set': unfoldSet,
       if (order != null) 'order': order,
       if (overrides != null) 'overrides': overrides,
+      if (overrideIds != null) 'override_ids': overrideIds,
     });
   }
 
@@ -883,6 +925,7 @@ class ProfilesCompanion extends UpdateCompanion<RawProfile> {
     Value<Set<String>>? unfoldSet,
     Value<int?>? order,
     Value<ProfileOverrides?>? overrides,
+    Value<List<int>>? overrideIds,
   }) {
     return ProfilesCompanion(
       id: id ?? this.id,
@@ -903,6 +946,7 @@ class ProfilesCompanion extends UpdateCompanion<RawProfile> {
       unfoldSet: unfoldSet ?? this.unfoldSet,
       order: order ?? this.order,
       overrides: overrides ?? this.overrides,
+      overrideIds: overrideIds ?? this.overrideIds,
     );
   }
 
@@ -974,6 +1018,11 @@ class ProfilesCompanion extends UpdateCompanion<RawProfile> {
         $ProfilesTable.$converteroverrides.toSql(overrides.value),
       );
     }
+    if (overrideIds.present) {
+      map['override_ids'] = Variable<String>(
+        $ProfilesTable.$converteroverrideIds.toSql(overrideIds.value),
+      );
+    }
     return map;
   }
 
@@ -996,7 +1045,8 @@ class ProfilesCompanion extends UpdateCompanion<RawProfile> {
           ..write('selectedMap: $selectedMap, ')
           ..write('unfoldSet: $unfoldSet, ')
           ..write('order: $order, ')
-          ..write('overrides: $overrides')
+          ..write('overrides: $overrides, ')
+          ..write('overrideIds: $overrideIds')
           ..write(')'))
         .toString();
   }
@@ -1336,6 +1386,451 @@ class ScriptsCompanion extends UpdateCompanion<RawScript> {
           ..write('id: $id, ')
           ..write('label: $label, ')
           ..write('lastUpdateTime: $lastUpdateTime, ')
+          ..write('url: $url, ')
+          ..write('order: $order')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $OverridesTable extends Overrides
+    with TableInfo<$OverridesTable, RawOverride> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $OverridesTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _labelMeta = const VerificationMeta('label');
+  @override
+  late final GeneratedColumn<String> label = GeneratedColumn<String>(
+    'label',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  @override
+  late final GeneratedColumnWithTypeConverter<OverrideType, String> ext =
+      GeneratedColumn<String>(
+        'ext',
+        aliasedName,
+        false,
+        type: DriftSqlType.string,
+        requiredDuringInsert: true,
+      ).withConverter<OverrideType>($OverridesTable.$converterext);
+  static const VerificationMeta _lastUpdateTimeMeta = const VerificationMeta(
+    'lastUpdateTime',
+  );
+  @override
+  late final GeneratedColumn<DateTime> lastUpdateTime =
+      GeneratedColumn<DateTime>(
+        'last_update_time',
+        aliasedName,
+        false,
+        type: DriftSqlType.dateTime,
+        requiredDuringInsert: true,
+      );
+  static const VerificationMeta _globalMeta = const VerificationMeta('global');
+  @override
+  late final GeneratedColumn<bool> global = GeneratedColumn<bool>(
+    'global',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("global" IN (0, 1))',
+    ),
+    defaultValue: const Constant(false),
+  );
+  static const VerificationMeta _urlMeta = const VerificationMeta('url');
+  @override
+  late final GeneratedColumn<String> url = GeneratedColumn<String>(
+    'url',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _orderMeta = const VerificationMeta('order');
+  @override
+  late final GeneratedColumn<int> order = GeneratedColumn<int>(
+    'order',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    label,
+    ext,
+    lastUpdateTime,
+    global,
+    url,
+    order,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'overrides';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<RawOverride> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('label')) {
+      context.handle(
+        _labelMeta,
+        label.isAcceptableOrUnknown(data['label']!, _labelMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_labelMeta);
+    }
+    if (data.containsKey('last_update_time')) {
+      context.handle(
+        _lastUpdateTimeMeta,
+        lastUpdateTime.isAcceptableOrUnknown(
+          data['last_update_time']!,
+          _lastUpdateTimeMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_lastUpdateTimeMeta);
+    }
+    if (data.containsKey('global')) {
+      context.handle(
+        _globalMeta,
+        global.isAcceptableOrUnknown(data['global']!, _globalMeta),
+      );
+    }
+    if (data.containsKey('url')) {
+      context.handle(
+        _urlMeta,
+        url.isAcceptableOrUnknown(data['url']!, _urlMeta),
+      );
+    }
+    if (data.containsKey('order')) {
+      context.handle(
+        _orderMeta,
+        order.isAcceptableOrUnknown(data['order']!, _orderMeta),
+      );
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  RawOverride map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return RawOverride(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      label: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}label'],
+      )!,
+      ext: $OverridesTable.$converterext.fromSql(
+        attachedDatabase.typeMapping.read(
+          DriftSqlType.string,
+          data['${effectivePrefix}ext'],
+        )!,
+      ),
+      lastUpdateTime: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}last_update_time'],
+      )!,
+      global: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}global'],
+      )!,
+      url: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}url'],
+      ),
+      order: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}order'],
+      ),
+    );
+  }
+
+  @override
+  $OverridesTable createAlias(String alias) {
+    return $OverridesTable(attachedDatabase, alias);
+  }
+
+  static JsonTypeConverter2<OverrideType, String, String> $converterext =
+      const EnumNameConverter<OverrideType>(OverrideType.values);
+}
+
+class RawOverride extends DataClass implements Insertable<RawOverride> {
+  final int id;
+  final String label;
+  final OverrideType ext;
+  final DateTime lastUpdateTime;
+  final bool global;
+  final String? url;
+  final int? order;
+  const RawOverride({
+    required this.id,
+    required this.label,
+    required this.ext,
+    required this.lastUpdateTime,
+    required this.global,
+    this.url,
+    this.order,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['label'] = Variable<String>(label);
+    {
+      map['ext'] = Variable<String>($OverridesTable.$converterext.toSql(ext));
+    }
+    map['last_update_time'] = Variable<DateTime>(lastUpdateTime);
+    map['global'] = Variable<bool>(global);
+    if (!nullToAbsent || url != null) {
+      map['url'] = Variable<String>(url);
+    }
+    if (!nullToAbsent || order != null) {
+      map['order'] = Variable<int>(order);
+    }
+    return map;
+  }
+
+  OverridesCompanion toCompanion(bool nullToAbsent) {
+    return OverridesCompanion(
+      id: Value(id),
+      label: Value(label),
+      ext: Value(ext),
+      lastUpdateTime: Value(lastUpdateTime),
+      global: Value(global),
+      url: url == null && nullToAbsent ? const Value.absent() : Value(url),
+      order: order == null && nullToAbsent
+          ? const Value.absent()
+          : Value(order),
+    );
+  }
+
+  factory RawOverride.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return RawOverride(
+      id: serializer.fromJson<int>(json['id']),
+      label: serializer.fromJson<String>(json['label']),
+      ext: $OverridesTable.$converterext.fromJson(
+        serializer.fromJson<String>(json['ext']),
+      ),
+      lastUpdateTime: serializer.fromJson<DateTime>(json['lastUpdateTime']),
+      global: serializer.fromJson<bool>(json['global']),
+      url: serializer.fromJson<String?>(json['url']),
+      order: serializer.fromJson<int?>(json['order']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'label': serializer.toJson<String>(label),
+      'ext': serializer.toJson<String>(
+        $OverridesTable.$converterext.toJson(ext),
+      ),
+      'lastUpdateTime': serializer.toJson<DateTime>(lastUpdateTime),
+      'global': serializer.toJson<bool>(global),
+      'url': serializer.toJson<String?>(url),
+      'order': serializer.toJson<int?>(order),
+    };
+  }
+
+  RawOverride copyWith({
+    int? id,
+    String? label,
+    OverrideType? ext,
+    DateTime? lastUpdateTime,
+    bool? global,
+    Value<String?> url = const Value.absent(),
+    Value<int?> order = const Value.absent(),
+  }) => RawOverride(
+    id: id ?? this.id,
+    label: label ?? this.label,
+    ext: ext ?? this.ext,
+    lastUpdateTime: lastUpdateTime ?? this.lastUpdateTime,
+    global: global ?? this.global,
+    url: url.present ? url.value : this.url,
+    order: order.present ? order.value : this.order,
+  );
+  RawOverride copyWithCompanion(OverridesCompanion data) {
+    return RawOverride(
+      id: data.id.present ? data.id.value : this.id,
+      label: data.label.present ? data.label.value : this.label,
+      ext: data.ext.present ? data.ext.value : this.ext,
+      lastUpdateTime: data.lastUpdateTime.present
+          ? data.lastUpdateTime.value
+          : this.lastUpdateTime,
+      global: data.global.present ? data.global.value : this.global,
+      url: data.url.present ? data.url.value : this.url,
+      order: data.order.present ? data.order.value : this.order,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('RawOverride(')
+          ..write('id: $id, ')
+          ..write('label: $label, ')
+          ..write('ext: $ext, ')
+          ..write('lastUpdateTime: $lastUpdateTime, ')
+          ..write('global: $global, ')
+          ..write('url: $url, ')
+          ..write('order: $order')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(id, label, ext, lastUpdateTime, global, url, order);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is RawOverride &&
+          other.id == this.id &&
+          other.label == this.label &&
+          other.ext == this.ext &&
+          other.lastUpdateTime == this.lastUpdateTime &&
+          other.global == this.global &&
+          other.url == this.url &&
+          other.order == this.order);
+}
+
+class OverridesCompanion extends UpdateCompanion<RawOverride> {
+  final Value<int> id;
+  final Value<String> label;
+  final Value<OverrideType> ext;
+  final Value<DateTime> lastUpdateTime;
+  final Value<bool> global;
+  final Value<String?> url;
+  final Value<int?> order;
+  const OverridesCompanion({
+    this.id = const Value.absent(),
+    this.label = const Value.absent(),
+    this.ext = const Value.absent(),
+    this.lastUpdateTime = const Value.absent(),
+    this.global = const Value.absent(),
+    this.url = const Value.absent(),
+    this.order = const Value.absent(),
+  });
+  OverridesCompanion.insert({
+    this.id = const Value.absent(),
+    required String label,
+    required OverrideType ext,
+    required DateTime lastUpdateTime,
+    this.global = const Value.absent(),
+    this.url = const Value.absent(),
+    this.order = const Value.absent(),
+  }) : label = Value(label),
+       ext = Value(ext),
+       lastUpdateTime = Value(lastUpdateTime);
+  static Insertable<RawOverride> custom({
+    Expression<int>? id,
+    Expression<String>? label,
+    Expression<String>? ext,
+    Expression<DateTime>? lastUpdateTime,
+    Expression<bool>? global,
+    Expression<String>? url,
+    Expression<int>? order,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (label != null) 'label': label,
+      if (ext != null) 'ext': ext,
+      if (lastUpdateTime != null) 'last_update_time': lastUpdateTime,
+      if (global != null) 'global': global,
+      if (url != null) 'url': url,
+      if (order != null) 'order': order,
+    });
+  }
+
+  OverridesCompanion copyWith({
+    Value<int>? id,
+    Value<String>? label,
+    Value<OverrideType>? ext,
+    Value<DateTime>? lastUpdateTime,
+    Value<bool>? global,
+    Value<String?>? url,
+    Value<int?>? order,
+  }) {
+    return OverridesCompanion(
+      id: id ?? this.id,
+      label: label ?? this.label,
+      ext: ext ?? this.ext,
+      lastUpdateTime: lastUpdateTime ?? this.lastUpdateTime,
+      global: global ?? this.global,
+      url: url ?? this.url,
+      order: order ?? this.order,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (label.present) {
+      map['label'] = Variable<String>(label.value);
+    }
+    if (ext.present) {
+      map['ext'] = Variable<String>(
+        $OverridesTable.$converterext.toSql(ext.value),
+      );
+    }
+    if (lastUpdateTime.present) {
+      map['last_update_time'] = Variable<DateTime>(lastUpdateTime.value);
+    }
+    if (global.present) {
+      map['global'] = Variable<bool>(global.value);
+    }
+    if (url.present) {
+      map['url'] = Variable<String>(url.value);
+    }
+    if (order.present) {
+      map['order'] = Variable<int>(order.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('OverridesCompanion(')
+          ..write('id: $id, ')
+          ..write('label: $label, ')
+          ..write('ext: $ext, ')
+          ..write('lastUpdateTime: $lastUpdateTime, ')
+          ..write('global: $global, ')
           ..write('url: $url, ')
           ..write('order: $order')
           ..write(')'))
@@ -4337,6 +4832,7 @@ abstract class _$Database extends GeneratedDatabase {
   $DatabaseManager get managers => $DatabaseManager(this);
   late final $ProfilesTable profiles = $ProfilesTable(this);
   late final $ScriptsTable scripts = $ScriptsTable(this);
+  late final $OverridesTable overrides = $OverridesTable(this);
   late final $RulesTable rules = $RulesTable(this);
   late final $DisabledRulesTable disabledRules = $DisabledRulesTable(this);
   late final $ProxyGroupsTable proxyGroups = $ProxyGroupsTable(this);
@@ -4363,6 +4859,7 @@ abstract class _$Database extends GeneratedDatabase {
   );
   late final ProfilesDao profilesDao = ProfilesDao(this as Database);
   late final ScriptsDao scriptsDao = ScriptsDao(this as Database);
+  late final OverridesDao overridesDao = OverridesDao(this as Database);
   late final RulesDao rulesDao = RulesDao(this as Database);
   late final ProxyGroupsDao proxyGroupsDao = ProxyGroupsDao(this as Database);
   late final IconRecordsDao iconRecordsDao = IconRecordsDao(this as Database);
@@ -4383,6 +4880,7 @@ abstract class _$Database extends GeneratedDatabase {
   List<DatabaseSchemaEntity> get allSchemaEntities => [
     profiles,
     scripts,
+    overrides,
     rules,
     disabledRules,
     proxyGroups,
@@ -4462,6 +4960,7 @@ typedef $$ProfilesTableCreateCompanionBuilder =
       required Set<String> unfoldSet,
       Value<int?> order,
       Value<ProfileOverrides?> overrides,
+      Value<List<int>> overrideIds,
     });
 typedef $$ProfilesTableUpdateCompanionBuilder =
     ProfilesCompanion Function({
@@ -4482,6 +4981,7 @@ typedef $$ProfilesTableUpdateCompanionBuilder =
       Value<Set<String>> unfoldSet,
       Value<int?> order,
       Value<ProfileOverrides?> overrides,
+      Value<List<int>> overrideIds,
     });
 
 final class $$ProfilesTableReferences
@@ -4663,6 +5163,12 @@ class $$ProfilesTableFilterComposer
   ColumnWithTypeConverterFilters<ProfileOverrides?, ProfileOverrides, String>
   get overrides => $composableBuilder(
     column: $table.overrides,
+    builder: (column) => ColumnWithTypeConverterFilters(column),
+  );
+
+  ColumnWithTypeConverterFilters<List<int>, List<int>, String>
+  get overrideIds => $composableBuilder(
+    column: $table.overrideIds,
     builder: (column) => ColumnWithTypeConverterFilters(column),
   );
 
@@ -4860,6 +5366,11 @@ class $$ProfilesTableOrderingComposer
     column: $table.overrides,
     builder: (column) => ColumnOrderings(column),
   );
+
+  ColumnOrderings<String> get overrideIds => $composableBuilder(
+    column: $table.overrideIds,
+    builder: (column) => ColumnOrderings(column),
+  );
 }
 
 class $$ProfilesTableAnnotationComposer
@@ -4942,6 +5453,12 @@ class $$ProfilesTableAnnotationComposer
 
   GeneratedColumnWithTypeConverter<ProfileOverrides?, String> get overrides =>
       $composableBuilder(column: $table.overrides, builder: (column) => column);
+
+  GeneratedColumnWithTypeConverter<List<int>, String> get overrideIds =>
+      $composableBuilder(
+        column: $table.overrideIds,
+        builder: (column) => column,
+      );
 
   Expression<T> rulesRefs<T extends Object>(
     Expression<T> Function($$RulesTableAnnotationComposer a) f,
@@ -5095,6 +5612,7 @@ class $$ProfilesTableTableManager
                 Value<Set<String>> unfoldSet = const Value.absent(),
                 Value<int?> order = const Value.absent(),
                 Value<ProfileOverrides?> overrides = const Value.absent(),
+                Value<List<int>> overrideIds = const Value.absent(),
               }) => ProfilesCompanion(
                 id: id,
                 type: type,
@@ -5113,6 +5631,7 @@ class $$ProfilesTableTableManager
                 unfoldSet: unfoldSet,
                 order: order,
                 overrides: overrides,
+                overrideIds: overrideIds,
               ),
           createCompanionCallback:
               ({
@@ -5134,6 +5653,7 @@ class $$ProfilesTableTableManager
                 required Set<String> unfoldSet,
                 Value<int?> order = const Value.absent(),
                 Value<ProfileOverrides?> overrides = const Value.absent(),
+                Value<List<int>> overrideIds = const Value.absent(),
               }) => ProfilesCompanion.insert(
                 id: id,
                 type: type,
@@ -5152,6 +5672,7 @@ class $$ProfilesTableTableManager
                 unfoldSet: unfoldSet,
                 order: order,
                 overrides: overrides,
+                overrideIds: overrideIds,
               ),
           withReferenceMapper: (p0) => p0
               .map(
@@ -5486,6 +6007,247 @@ typedef $$ScriptsTableProcessedTableManager =
       $$ScriptsTableUpdateCompanionBuilder,
       (RawScript, BaseReferences<_$Database, $ScriptsTable, RawScript>),
       RawScript,
+      PrefetchHooks Function()
+    >;
+typedef $$OverridesTableCreateCompanionBuilder =
+    OverridesCompanion Function({
+      Value<int> id,
+      required String label,
+      required OverrideType ext,
+      required DateTime lastUpdateTime,
+      Value<bool> global,
+      Value<String?> url,
+      Value<int?> order,
+    });
+typedef $$OverridesTableUpdateCompanionBuilder =
+    OverridesCompanion Function({
+      Value<int> id,
+      Value<String> label,
+      Value<OverrideType> ext,
+      Value<DateTime> lastUpdateTime,
+      Value<bool> global,
+      Value<String?> url,
+      Value<int?> order,
+    });
+
+class $$OverridesTableFilterComposer
+    extends Composer<_$Database, $OverridesTable> {
+  $$OverridesTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get label => $composableBuilder(
+    column: $table.label,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnWithTypeConverterFilters<OverrideType, OverrideType, String> get ext =>
+      $composableBuilder(
+        column: $table.ext,
+        builder: (column) => ColumnWithTypeConverterFilters(column),
+      );
+
+  ColumnFilters<DateTime> get lastUpdateTime => $composableBuilder(
+    column: $table.lastUpdateTime,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get global => $composableBuilder(
+    column: $table.global,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get url => $composableBuilder(
+    column: $table.url,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get order => $composableBuilder(
+    column: $table.order,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$OverridesTableOrderingComposer
+    extends Composer<_$Database, $OverridesTable> {
+  $$OverridesTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get label => $composableBuilder(
+    column: $table.label,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get ext => $composableBuilder(
+    column: $table.ext,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get lastUpdateTime => $composableBuilder(
+    column: $table.lastUpdateTime,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<bool> get global => $composableBuilder(
+    column: $table.global,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get url => $composableBuilder(
+    column: $table.url,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get order => $composableBuilder(
+    column: $table.order,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$OverridesTableAnnotationComposer
+    extends Composer<_$Database, $OverridesTable> {
+  $$OverridesTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get label =>
+      $composableBuilder(column: $table.label, builder: (column) => column);
+
+  GeneratedColumnWithTypeConverter<OverrideType, String> get ext =>
+      $composableBuilder(column: $table.ext, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get lastUpdateTime => $composableBuilder(
+    column: $table.lastUpdateTime,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<bool> get global =>
+      $composableBuilder(column: $table.global, builder: (column) => column);
+
+  GeneratedColumn<String> get url =>
+      $composableBuilder(column: $table.url, builder: (column) => column);
+
+  GeneratedColumn<int> get order =>
+      $composableBuilder(column: $table.order, builder: (column) => column);
+}
+
+class $$OverridesTableTableManager
+    extends
+        RootTableManager<
+          _$Database,
+          $OverridesTable,
+          RawOverride,
+          $$OverridesTableFilterComposer,
+          $$OverridesTableOrderingComposer,
+          $$OverridesTableAnnotationComposer,
+          $$OverridesTableCreateCompanionBuilder,
+          $$OverridesTableUpdateCompanionBuilder,
+          (
+            RawOverride,
+            BaseReferences<_$Database, $OverridesTable, RawOverride>,
+          ),
+          RawOverride,
+          PrefetchHooks Function()
+        > {
+  $$OverridesTableTableManager(_$Database db, $OverridesTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$OverridesTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$OverridesTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$OverridesTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<String> label = const Value.absent(),
+                Value<OverrideType> ext = const Value.absent(),
+                Value<DateTime> lastUpdateTime = const Value.absent(),
+                Value<bool> global = const Value.absent(),
+                Value<String?> url = const Value.absent(),
+                Value<int?> order = const Value.absent(),
+              }) => OverridesCompanion(
+                id: id,
+                label: label,
+                ext: ext,
+                lastUpdateTime: lastUpdateTime,
+                global: global,
+                url: url,
+                order: order,
+              ),
+          createCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                required String label,
+                required OverrideType ext,
+                required DateTime lastUpdateTime,
+                Value<bool> global = const Value.absent(),
+                Value<String?> url = const Value.absent(),
+                Value<int?> order = const Value.absent(),
+              }) => OverridesCompanion.insert(
+                id: id,
+                label: label,
+                ext: ext,
+                lastUpdateTime: lastUpdateTime,
+                global: global,
+                url: url,
+                order: order,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable<$OverridesTable, RawOverride>(table),
+                  BaseReferences<_$Database, $OverridesTable, RawOverride>(
+                    db,
+                    table,
+                    e,
+                  ),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$OverridesTableProcessedTableManager =
+    ProcessedTableManager<
+      _$Database,
+      $OverridesTable,
+      RawOverride,
+      $$OverridesTableFilterComposer,
+      $$OverridesTableOrderingComposer,
+      $$OverridesTableAnnotationComposer,
+      $$OverridesTableCreateCompanionBuilder,
+      $$OverridesTableUpdateCompanionBuilder,
+      (RawOverride, BaseReferences<_$Database, $OverridesTable, RawOverride>),
+      RawOverride,
       PrefetchHooks Function()
     >;
 typedef $$RulesTableCreateCompanionBuilder =
@@ -8002,6 +8764,8 @@ class $DatabaseManager {
       $$ProfilesTableTableManager(_db, _db.profiles);
   $$ScriptsTableTableManager get scripts =>
       $$ScriptsTableTableManager(_db, _db.scripts);
+  $$OverridesTableTableManager get overrides =>
+      $$OverridesTableTableManager(_db, _db.overrides);
   $$RulesTableTableManager get rules =>
       $$RulesTableTableManager(_db, _db.rules);
   $$DisabledRulesTableTableManager get disabledRules =>
@@ -8042,6 +8806,18 @@ class ScriptsDaoManager {
   ScriptsDaoManager(this._db);
   $$ScriptsTableTableManager get scripts =>
       $$ScriptsTableTableManager(_db.attachedDatabase, _db.scripts);
+}
+
+mixin _$OverridesDaoMixin on DatabaseAccessor<Database> {
+  $OverridesTable get overrides => attachedDatabase.overrides;
+  OverridesDaoManager get managers => OverridesDaoManager(this);
+}
+
+class OverridesDaoManager {
+  final _$OverridesDaoMixin _db;
+  OverridesDaoManager(this._db);
+  $$OverridesTableTableManager get overrides =>
+      $$OverridesTableTableManager(_db.attachedDatabase, _db.overrides);
 }
 
 mixin _$RulesDaoMixin on DatabaseAccessor<Database> {

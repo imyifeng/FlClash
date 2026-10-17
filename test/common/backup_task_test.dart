@@ -509,6 +509,7 @@ void main() {
       entries ??= BackupEntries.of(
         profileIds: const [1],
         scriptIds: const [2],
+        overrides: const [],
         providers: const [localProvider],
       );
       final archivePath = join(root.path, 'archive', '$uniqueId.zip');

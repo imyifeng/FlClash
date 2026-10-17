@@ -123,6 +123,15 @@ class AppPath {
     return join(path, '$fileName.js');
   }
 
+  Future<String> get overridesDirPath async {
+    final path = await homeDirPath;
+    return join(path, 'overrides');
+  }
+
+  Future<String> getOverridePath(String fileName) async {
+    return join(await overridesDirPath, fileName);
+  }
+
   Future<String> get providerCacheRootPath async {
     final directory = await homeDirPath;
     return join(directory, providersDirectoryName);

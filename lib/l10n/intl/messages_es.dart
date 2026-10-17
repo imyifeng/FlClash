@@ -899,6 +899,9 @@ class MessageLookup extends MessageLookupByLibrary {
       "Modo geo de poca memoria",
     ),
     "global": MessageLookupByLibrary.simpleMessage("Global"),
+    "globalOverridesAlwaysApply": MessageLookupByLibrary.simpleMessage(
+      "Las sobrescrituras globales se aplican a todos los perfiles",
+    ),
     "go": MessageLookupByLibrary.simpleMessage("Ir"),
     "goDownload": MessageLookupByLibrary.simpleMessage("Descargar"),
     "goToConfigureAddedRules": MessageLookupByLibrary.simpleMessage(
@@ -1288,6 +1291,12 @@ class MessageLookup extends MessageLookupByLibrary {
       "Falló la conexión segura. Puede que el certificado del servidor no sea válido o que la conexión esté siendo interceptada",
     ),
     "networkType": MessageLookupByLibrary.simpleMessage("Tipo de red"),
+    "newJavaScriptOverride": MessageLookupByLibrary.simpleMessage(
+      "Nueva sobrescritura JavaScript",
+    ),
+    "newYamlOverride": MessageLookupByLibrary.simpleMessage(
+      "Nueva sobrescritura YAML",
+    ),
     "nextMatch": MessageLookupByLibrary.simpleMessage("Coincidencia siguiente"),
     "no": MessageLookupByLibrary.simpleMessage("No"),
     "noData": MessageLookupByLibrary.simpleMessage("Sin datos"),
@@ -1351,6 +1360,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "outboundExit": MessageLookupByLibrary.simpleMessage("Salida"),
     "outboundIp": MessageLookupByLibrary.simpleMessage("IP de salida"),
     "outboundMode": MessageLookupByLibrary.simpleMessage("Modo de salida"),
+    "override": MessageLookupByLibrary.simpleMessage("Sobrescritura"),
     "overrideDestination": MessageLookupByLibrary.simpleMessage(
       "Sobrescribir destino",
     ),
@@ -1370,6 +1380,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "pickFromAlbum": MessageLookupByLibrary.simpleMessage("Elegir del álbum"),
     "pinWindow": MessageLookupByLibrary.simpleMessage("Fijar ventana"),
     "pleaseBindWebDAV": MessageLookupByLibrary.simpleMessage("Vincula WebDAV"),
+    "pleaseEnterOverrideName": MessageLookupByLibrary.simpleMessage(
+      "Introduce un nombre de sobrescritura",
+    ),
     "pleaseEnterScriptName": MessageLookupByLibrary.simpleMessage(
       "Introduce un nombre para el script",
     ),

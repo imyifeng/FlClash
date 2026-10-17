@@ -78,6 +78,7 @@ Future<SetupState> setupState(Ref ref, int? profileId) async {
   List<CustomProxy> appProxies = [];
   Map<int, String> proxyDialers = const {};
   Script? script;
+  List<OverrideItem> overrideChain = [];
   if (profileId != null) {
     if (profileType == ProfileType.custom) {
       rules = await database.rulesDao.queryProfileRules(profileId).get();
@@ -90,12 +91,27 @@ Future<SetupState> setupState(Ref ref, int? profileId) async {
             in await database.proxyDialersDao.query(profileId).get())
           dialer.proxyId: dialer.target,
       };
-    } else if (extendType == ExtendType.standard) {
-      addedRules = await database.rulesDao.queryAddedRules(profileId).get();
-    } else if (extendType == ExtendType.script) {
-      script = scriptId == null
-          ? null
-          : await database.scriptsDao.get(scriptId).getSingleOrNull();
+    } else {
+      if (extendType == ExtendType.standard) {
+        addedRules = await database.rulesDao.queryAddedRules(profileId).get();
+      } else if (extendType == ExtendType.script) {
+        script = scriptId == null
+            ? null
+            : await database.scriptsDao.get(scriptId).getSingleOrNull();
+      }
+      if (profile != null) {
+        final allOverrides = await database.overridesDao.query().get();
+        final globalItems = [
+          for (final item in allOverrides)
+            if (item.global) item,
+        ];
+        final globalIds = {for (final item in globalItems) item.id};
+        overrideChain = [
+          ...globalItems,
+          for (final id in profile.overrideIds)
+            if (!globalIds.contains(id)) ?allOverrides.get(id),
+        ];
+      }
     }
   }
   return SetupState(
@@ -112,6 +128,7 @@ Future<SetupState> setupState(Ref ref, int? profileId) async {
     addedRules: addedRules,
     script: script,
     overrides: overrides,
+    overrideChain: overrideChain,
     matchTarget:
         profileType != ProfileType.custom && extendType == ExtendType.standard
         ? profile?.matchTarget

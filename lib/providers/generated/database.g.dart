@@ -183,6 +183,51 @@ abstract class _$Scripts extends $StreamNotifier<List<Script>> {
   }
 }
 
+@ProviderFor(Overrides)
+final overridesProvider = OverridesProvider._();
+
+final class OverridesProvider
+    extends $StreamNotifierProvider<Overrides, List<OverrideItem>> {
+  OverridesProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'overridesProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$overridesHash();
+
+  @$internal
+  @override
+  Overrides create() => Overrides();
+}
+
+String _$overridesHash() => r'789e97bda52d6832016ec27a5511e0d9e8c2baa7';
+
+abstract class _$Overrides extends $StreamNotifier<List<OverrideItem>> {
+  Stream<List<OverrideItem>> build();
+  @$mustCallSuper
+  @override
+  WhenComplete runBuild() {
+    final ref =
+        this.ref as $Ref<AsyncValue<List<OverrideItem>>, List<OverrideItem>>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<AsyncValue<List<OverrideItem>>, List<OverrideItem>>,
+              AsyncValue<List<OverrideItem>>,
+              Object?,
+              Object?
+            >;
+    return element.handleCreate(ref, build);
+  }
+}
+
 @ProviderFor(ClashProviders)
 final clashProvidersProvider = ClashProvidersProvider._();
 

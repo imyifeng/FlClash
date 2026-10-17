@@ -39,6 +39,7 @@ class _EditProfileViewState extends ConsumerState<EditProfileView> {
   final _fileInfoNotifier = ValueNotifier<FileInfo?>(null);
   late SetupAction _setupAction;
   Uint8List? _fileData;
+  late List<int> _overrideIds = List.of(widget.profile.overrideIds);
 
   @override
   void initState() {
@@ -136,6 +137,7 @@ class _EditProfileViewState extends ConsumerState<EditProfileView> {
       autoUpdateDuration: interval != null && interval > 0
           ? Duration(minutes: interval)
           : current.autoUpdateDuration,
+      overrideIds: _overrideIds,
     );
     final profilesAction = ref.read(profilesActionProvider.notifier);
     final appLocalizations = context.appLocalizations;
@@ -184,6 +186,19 @@ class _EditProfileViewState extends ConsumerState<EditProfileView> {
     if (_autoUpdate == value) return;
     setState(() {
       _autoUpdate = value;
+    });
+  }
+
+  Future<void> _handleEditOverrides() async {
+    final res = await showFormSheet<List<int>>(
+      context: context,
+      builder: (_) => _OverridesSheet(attached: _overrideIds),
+    );
+    if (res == null || !mounted) {
+      return;
+    }
+    setState(() {
+      _overrideIds = res;
     });
   }
 
@@ -312,6 +327,12 @@ class _EditProfileViewState extends ConsumerState<EditProfileView> {
               onChanged: _handleChanged,
             ),
           _AgeSecretKeyField(controller: _ageSecretKeyController),
+          if (widget.profile.type != ProfileType.custom)
+            FormRow(
+              title: appLocalizations.override,
+              onPressed: _handleEditOverrides,
+              trailing: const DisclosureIndicator(),
+            ),
         ],
       ),
       if (isUrl)
@@ -377,6 +398,77 @@ String? validateProfileName(AppLocalizations appLocalizations, String? value) {
     return appLocalizations.profileNameNullValidationDesc;
   }
   return null;
+}
+
+class _OverridesSheet extends ConsumerStatefulWidget {
+  const _OverridesSheet({required this.attached});
+
+  final List<int> attached;
+
+  @override
+  ConsumerState<_OverridesSheet> createState() => _OverridesSheetState();
+}
+
+class _OverridesSheetState extends ConsumerState<_OverridesSheet> {
+  late final Set<int> _attached = {...widget.attached};
+
+  void _toggle(int id, bool value) {
+    setState(() {
+      value ? _attached.add(id) : _attached.remove(id);
+    });
+  }
+
+  void _submit() {
+    Navigator.of(context).pop<List<int>>([..._attached]);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final appLocalizations = context.appLocalizations;
+    final overrides =
+        ref.watch(overridesProvider).value ?? const <OverrideItem>[];
+    final globals = [
+      for (final item in overrides)
+        if (item.global) item,
+    ];
+    final items = overrides.where((item) => !item.global).toList();
+    return FormPage(
+      title: appLocalizations.override,
+      saveLabel: appLocalizations.save,
+      onSave: _submit,
+      children: [
+        if (overrides.isEmpty)
+          Text(
+            appLocalizations.nullTip(appLocalizations.override),
+            style: context.listCaptionStyle,
+          )
+        else ...[
+          if (globals.isNotEmpty)
+            Text(
+              [
+                appLocalizations.globalOverridesAlwaysApply,
+                ...globals.map((item) => item.label),
+              ].join(' · '),
+              style: context.listCaptionStyle,
+            ),
+          generateSection(
+            items: [
+              for (final item in items)
+                FormRow(
+                  title: item.label,
+                  onPressed: () =>
+                      _toggle(item.id, !_attached.contains(item.id)),
+                  trailing: Switch(
+                    value: _attached.contains(item.id),
+                    onChanged: (value) => _toggle(item.id, value),
+                  ),
+                ),
+            ],
+          ),
+        ],
+      ],
+    );
+  }
 }
 
 Future<void> renameProfile(

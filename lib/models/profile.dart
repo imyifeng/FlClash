@@ -82,6 +82,7 @@ abstract class Profile with _$Profile {
     @Default(ProfileOverrides())
     @JsonKey(fromJson: ProfileOverrides.safeFromJson)
     ProfileOverrides overrides,
+    @Default([]) List<int> overrideIds,
   }) = _Profile;
 
   factory Profile.fromJson(Map<String, Object?> json) =>

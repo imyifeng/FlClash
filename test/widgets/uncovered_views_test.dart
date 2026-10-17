@@ -15,6 +15,7 @@ import 'package:fl_clash/state.dart';
 import 'package:fl_clash/ui/icons/icons.dart';
 import 'package:fl_clash/views/about.dart';
 import 'package:fl_clash/views/config/rules.dart';
+import 'package:fl_clash/views/config/overrides.dart';
 import 'package:fl_clash/views/config/scripts.dart';
 import 'package:fl_clash/views/profiles/extend/standard.dart';
 import 'package:fl_clash/views/proxies/setting.dart';
@@ -71,6 +72,24 @@ class _RecordingScriptsAction extends ScriptsAction {
   @override
   Future<void> updateScript(Script script) async {
     updated.add(script);
+  }
+}
+
+class _TestOverrides extends Overrides {
+  _TestOverrides(this.initial);
+
+  final List<OverrideItem> initial;
+
+  @override
+  Stream<List<OverrideItem>> build() => Stream.value(initial);
+}
+
+class _RecordingOverridesAction extends OverridesAction {
+  final puts = <OverrideItem>[];
+
+  @override
+  void putOverride(OverrideItem item) {
+    puts.add(item);
   }
 }
 
@@ -392,6 +411,98 @@ void main() {
     await tester.pump();
 
     expect(action.updated, [remote]);
+  });
+
+  testWidgets('overrides view renders its rows and add menu', (tester) async {
+    final overrides = [
+      OverrideItem(
+        id: 1,
+        label: 'Ad rules',
+        lastUpdateTime: DateTime(2026),
+        global: true,
+      ),
+      OverrideItem(
+        id: 2,
+        label: 'Node filter',
+        ext: OverrideType.javascript,
+        lastUpdateTime: DateTime(2026),
+        url: 'https://example.com/a.js',
+      ),
+    ];
+    final container = _containerFor(
+      tester,
+      overrides: [
+        overridesProvider.overrideWith(() => _TestOverrides(overrides)),
+      ],
+    );
+
+    await tester.pumpWidget(
+      UncontrolledProviderScope(
+        container: container,
+        child: const TestApp(child: OverridesView()),
+      ),
+    );
+    await tester.pump();
+
+    expect(find.byType(OverridesView), findsOneWidget);
+    expect(find.text('Ad rules'), findsOneWidget);
+    expect(find.text('Node filter'), findsOneWidget);
+    expect(find.text('YAML · Local · Global'), findsOneWidget);
+    expect(find.text('JavaScript · Remote'), findsOneWidget);
+    expect(find.byType(LastUpdateTimeText), findsNWidgets(2));
+    expect(tester.takeException(), null);
+
+    await tester.tap(find.byTooltip('Add'));
+    await tester.pumpAndSettle();
+    expect(find.text('New YAML override'), findsOneWidget);
+    expect(find.text('New JavaScript override'), findsOneWidget);
+    expect(find.text('Import from URL'), findsOneWidget);
+    expect(find.text('Import from file'), findsOneWidget);
+  });
+
+  testWidgets('overrides view toggles global from the context menu', (
+    tester,
+  ) async {
+    final local = OverrideItem(
+      id: 1,
+      label: 'Ad rules',
+      lastUpdateTime: DateTime(2026),
+    );
+    final action = _RecordingOverridesAction();
+    final container = _containerFor(
+      tester,
+      overrides: [
+        overridesProvider.overrideWith(() => _TestOverrides([local])),
+        overridesActionProvider.overrideWith(() => action),
+      ],
+    );
+
+    await tester.pumpWidget(
+      UncontrolledProviderScope(
+        container: container,
+        child: const TestApp(child: OverridesView()),
+      ),
+    );
+    await tester.pump();
+
+    await tester.tap(find.byTooltip('Add'));
+    await tester.pumpAndSettle();
+    expect(find.text('New YAML override'), findsOneWidget);
+    await tester.tapAt(Offset.zero);
+    await tester.pumpAndSettle();
+
+    await rightClick(tester, find.text('Ad rules'));
+    await tester.pumpAndSettle();
+    expect(find.text('Edit'), findsOneWidget);
+    expect(find.text('Global'), findsOneWidget);
+    expect(find.text('Sync'), findsNothing);
+    expect(find.text('Delete'), findsOneWidget);
+
+    await tester.tap(find.text('Global'));
+    await tester.pump();
+
+    expect(action.puts.single.id, 1);
+    expect(action.puts.single.global, isTrue);
   });
 
   testWidgets('scripts view reorders a script by its handle in sort mode', (

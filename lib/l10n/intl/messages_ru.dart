@@ -881,6 +881,9 @@ class MessageLookup extends MessageLookupByLibrary {
       "Geo: экономия памяти",
     ),
     "global": MessageLookupByLibrary.simpleMessage("Глобальный"),
+    "globalOverridesAlwaysApply": MessageLookupByLibrary.simpleMessage(
+      "Глобальные переопределения применяются ко всем профилям",
+    ),
     "go": MessageLookupByLibrary.simpleMessage("Перейти"),
     "goDownload": MessageLookupByLibrary.simpleMessage("Скачать"),
     "goToConfigureAddedRules": MessageLookupByLibrary.simpleMessage(
@@ -1252,6 +1255,12 @@ class MessageLookup extends MessageLookupByLibrary {
       "Не удалось установить защищённое соединение. Сертификат сервера может быть недействителен, или соединение перехватывается",
     ),
     "networkType": MessageLookupByLibrary.simpleMessage("Тип сети"),
+    "newJavaScriptOverride": MessageLookupByLibrary.simpleMessage(
+      "Новое JavaScript-переопределение",
+    ),
+    "newYamlOverride": MessageLookupByLibrary.simpleMessage(
+      "Новое YAML-переопределение",
+    ),
     "nextMatch": MessageLookupByLibrary.simpleMessage("Следующее совпадение"),
     "no": MessageLookupByLibrary.simpleMessage("Нет"),
     "noData": MessageLookupByLibrary.simpleMessage("Нет данных"),
@@ -1313,6 +1322,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "outboundMode": MessageLookupByLibrary.simpleMessage(
       "Режим исходящего трафика",
     ),
+    "override": MessageLookupByLibrary.simpleMessage("Переопределение"),
     "overrideDestination": MessageLookupByLibrary.simpleMessage(
       "Подменять адрес назначения",
     ),
@@ -1335,6 +1345,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "pleaseBindWebDAV": MessageLookupByLibrary.simpleMessage(
       "Привяжите WebDAV",
+    ),
+    "pleaseEnterOverrideName": MessageLookupByLibrary.simpleMessage(
+      "Введите название переопределения",
     ),
     "pleaseEnterScriptName": MessageLookupByLibrary.simpleMessage(
       "Введите название скрипта",

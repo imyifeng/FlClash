@@ -281,6 +281,33 @@ Map<String, dynamic> _$ScriptToJson(_Script instance) => <String, dynamic>{
   'order': instance.order,
 };
 
+_Override _$OverrideFromJson(Map<String, dynamic> json) => _Override(
+  id: (json['id'] as num).toInt(),
+  label: json['label'] as String,
+  ext:
+      $enumDecodeNullable(_$OverrideTypeEnumMap, json['ext']) ??
+      OverrideType.yaml,
+  lastUpdateTime: DateTime.parse(json['lastUpdateTime'] as String),
+  global: json['global'] as bool? ?? false,
+  url: json['url'] as String?,
+  order: (json['order'] as num?)?.toInt(),
+);
+
+Map<String, dynamic> _$OverrideToJson(_Override instance) => <String, dynamic>{
+  'id': instance.id,
+  'label': instance.label,
+  'ext': _$OverrideTypeEnumMap[instance.ext]!,
+  'lastUpdateTime': instance.lastUpdateTime.toIso8601String(),
+  'global': instance.global,
+  'url': instance.url,
+  'order': instance.order,
+};
+
+const _$OverrideTypeEnumMap = {
+  OverrideType.yaml: 'yaml',
+  OverrideType.javascript: 'javascript',
+};
+
 _IconSetIcon _$IconSetIconFromJson(Map<String, dynamic> json) =>
     _IconSetIcon(name: json['name'] as String, url: json['url'] as String);
 

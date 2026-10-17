@@ -3,6 +3,7 @@ import 'package:fl_clash/ui/icons/icons.dart';
 import 'package:fl_clash/ui/ui.dart';
 import 'package:fl_clash/views/config/dns.dart';
 import 'package:fl_clash/views/config/network.dart';
+import 'package:fl_clash/views/config/overrides.dart';
 import 'package:fl_clash/views/config/scripts.dart';
 import 'package:material_ui/material_ui.dart';
 
@@ -32,6 +33,11 @@ class AdvancedConfigView extends StatelessWidget {
         title: Text(appLocalizations.addedRules),
         leading: const GlyphIcon(AppGlyphs.rules),
         widget: const AddedRulesView(),
+      ),
+      ListItem.open(
+        title: Text(appLocalizations.override),
+        leading: const GlyphIcon(AppGlyphs.layers),
+        widget: const OverridesView(),
       ),
       ListItem.open(
         title: Text(appLocalizations.script),

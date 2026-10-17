@@ -2040,6 +2040,51 @@ class AppLocalizations {
     );
   }
 
+  /// `Override`
+  String get override {
+    return Intl.message('Override', name: 'override', desc: '', args: []);
+  }
+
+  /// `New YAML override`
+  String get newYamlOverride {
+    return Intl.message(
+      'New YAML override',
+      name: 'newYamlOverride',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `New JavaScript override`
+  String get newJavaScriptOverride {
+    return Intl.message(
+      'New JavaScript override',
+      name: 'newJavaScriptOverride',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please enter an override name`
+  String get pleaseEnterOverrideName {
+    return Intl.message(
+      'Please enter an override name',
+      name: 'pleaseEnterOverrideName',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Global overrides apply to every profile`
+  String get globalOverridesAlwaysApply {
+    return Intl.message(
+      'Global overrides apply to every profile',
+      name: 'globalOverridesAlwaysApply',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Add override entry`
   String get addOverrideEntry {
     return Intl.message(

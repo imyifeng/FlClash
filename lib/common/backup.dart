@@ -29,6 +29,8 @@ abstract final class BackupEntries {
 
   static String script(Object id) => 'scripts/$id.js';
 
+  static String override(OverrideItem item) => 'overrides/${item.fileName}';
+
   static String provider(ClashProvider provider) =>
       '$providersDirectoryName/$rulesProviderDirectoryName/${provider.fileName}';
 
@@ -36,11 +38,13 @@ abstract final class BackupEntries {
   static List<String> of({
     required Iterable<int> profileIds,
     required Iterable<int> scriptIds,
+    required Iterable<OverrideItem> overrides,
     required Iterable<ClashProvider> providers,
   }) {
     return [
       ...profileIds.map(profile),
       ...scriptIds.map(script),
+      ...overrides.map(override),
       ...providers.where((item) => !item.isRemote).map(provider),
     ];
   }
@@ -49,6 +53,7 @@ abstract final class BackupEntries {
     return of(
       profileIds: data.profiles.map((item) => item.id),
       scriptIds: data.scripts.map((item) => item.id),
+      overrides: data.overrides,
       providers: data.clashProviders,
     );
   }
@@ -168,6 +173,7 @@ Future<MigrationData> readBackupArchive({
     final results = await Future.wait([
       database.profilesDao.query().get(),
       database.scriptsDao.query().get(),
+      database.overridesDao.query().get(),
       (database.select(database.rules)..orderBy([
             (t) => OrderingTerm(expression: t.order, nulls: NullsOrder.last),
           ]))
@@ -190,12 +196,13 @@ Future<MigrationData> readBackupArchive({
       configMap: configMap,
       profiles: results[0].cast<Profile>(),
       scripts: results[1].cast<Script>(),
-      rules: results[2].cast<Rule>(),
-      disabledRules: results[3].cast<DisabledRule>(),
-      proxyGroups: results[4].cast<ProxyGroup>(),
-      clashProviders: results[5].cast<ClashProvider>(),
-      customProxies: results[6].cast<CustomProxy>(),
-      proxyDialers: results[7].cast<ProxyDialer>(),
+      overrides: results[2].cast<OverrideItem>(),
+      rules: results[3].cast<Rule>(),
+      disabledRules: results[4].cast<DisabledRule>(),
+      proxyGroups: results[5].cast<ProxyGroup>(),
+      clashProviders: results[6].cast<ClashProvider>(),
+      customProxies: results[7].cast<CustomProxy>(),
+      proxyDialers: results[8].cast<ProxyDialer>(),
     );
   } finally {
     await database.close();

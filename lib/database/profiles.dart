@@ -41,6 +41,9 @@ class Profiles extends Table {
   TextColumn get overrides =>
       text().map(const ProfileOverridesConverter()).nullable()();
 
+  TextColumn get overrideIds =>
+      text().map(const IntListConverter()).withDefault(const Constant('[]'))();
+
   @override
   Set<Column> get primaryKey => {id};
 }
@@ -172,6 +175,7 @@ extension RawProfilExt on RawProfile {
       matchTarget: matchTarget,
       order: order,
       overrides: overrides ?? const ProfileOverrides(),
+      overrideIds: overrideIds,
     );
   }
 }
@@ -196,6 +200,7 @@ extension ProfilesCompanionExt on Profile {
       matchTarget: Value(matchTarget),
       order: Value(order ?? this.order),
       overrides: Value(overrides),
+      overrideIds: Value(overrideIds),
     );
   }
 }

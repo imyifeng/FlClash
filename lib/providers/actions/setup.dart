@@ -455,7 +455,11 @@ class SetupAction extends _$SetupAction {
         ? await setupState.script?.content
         : null;
     final hasScript = scriptContent?.isNotEmpty == true;
-    final profileBase = !isCustom && !hasScript
+    final overrideChain = isCustom
+        ? const <OverrideItem>[]
+        : setupState.overrideChain;
+    final hasOverrideChain = overrideChain.isNotEmpty;
+    final profileBase = !isCustom && !hasScript && !hasOverrideChain
         ? await _core.getProfileBase(profileId)
         : null;
     Map<String, dynamic> rawConfig = isCustom
@@ -469,6 +473,16 @@ class SetupAction extends _$SetupAction {
         : profileBase?.base.config ?? await _core.getConfig(profileId);
     final proxyGroups = isCustom ? setupState.proxyGroups : <ProxyGroup>[];
     final rules = isCustom ? setupState.rules : <Rule>[];
+    for (final override in overrideChain) {
+      final content = await override.content;
+      if (content == null || content.trim().isEmpty) {
+        continue;
+      }
+      rawConfig = switch (override.ext) {
+        OverrideType.javascript => await handleEvaluate(content, rawConfig),
+        OverrideType.yaml => applyOverrideYaml(rawConfig, content),
+      };
+    }
     if (hasScript) {
       rawConfig = await handleEvaluate(scriptContent!, rawConfig);
     }

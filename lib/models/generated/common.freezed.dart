@@ -5403,6 +5403,301 @@ as int?,
 
 }
 
+OverrideItem _$OverrideItemFromJson(
+  Map<String, dynamic> json
+) {
+    return _Override.fromJson(
+      json
+    );
+}
+
+/// @nodoc
+mixin _$OverrideItem {
+
+ int get id; String get label; OverrideType get ext; DateTime get lastUpdateTime; bool get global; String? get url; int? get order;
+/// Create a copy of OverrideItem
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$OverrideItemCopyWith<OverrideItem> get copyWith => _$OverrideItemCopyWithImpl<OverrideItem>(this as OverrideItem, _$identity);
+
+  /// Serializes this OverrideItem to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+@override
+bool operator ==(Object other) {
+  final _this = this as OverrideItem;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is OverrideItem&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.label, _this.label) || other.label == _this.label)&&(identical(other.ext, _this.ext) || other.ext == _this.ext)&&(identical(other.lastUpdateTime, _this.lastUpdateTime) || other.lastUpdateTime == _this.lastUpdateTime)&&(identical(other.global, _this.global) || other.global == _this.global)&&(identical(other.url, _this.url) || other.url == _this.url)&&(identical(other.order, _this.order) || other.order == _this.order));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode {
+  final _this = this as OverrideItem;
+  return Object.hash(runtimeType,_this.id,_this.label,_this.ext,_this.lastUpdateTime,_this.global,_this.url,_this.order);
+}
+
+@override
+String toString() {
+  final _this = this as OverrideItem;
+  return 'OverrideItem(id: ${_this.id}, label: ${_this.label}, ext: ${_this.ext}, lastUpdateTime: ${_this.lastUpdateTime}, global: ${_this.global}, url: ${_this.url}, order: ${_this.order})';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $OverrideItemCopyWith<$Res>  {
+  factory $OverrideItemCopyWith(OverrideItem value, $Res Function(OverrideItem) _then) = _$OverrideItemCopyWithImpl;
+@useResult
+$Res call({
+ int id, String label, OverrideType ext, DateTime lastUpdateTime, bool global, String? url, int? order
+});
+
+
+
+
+}
+/// @nodoc
+class _$OverrideItemCopyWithImpl<$Res>
+    implements $OverrideItemCopyWith<$Res> {
+  _$OverrideItemCopyWithImpl(this._self, this._then);
+
+  final OverrideItem _self;
+  final $Res Function(OverrideItem) _then;
+
+/// Create a copy of OverrideItem
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? label = null,Object? ext = null,Object? lastUpdateTime = null,Object? global = null,Object? url = freezed,Object? order = freezed,}) {
+  return _then(OverrideItem(
+id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as int,label: null == label ? _self.label : label // ignore: cast_nullable_to_non_nullable
+as String,ext: null == ext ? _self.ext : ext // ignore: cast_nullable_to_non_nullable
+as OverrideType,lastUpdateTime: null == lastUpdateTime ? _self.lastUpdateTime : lastUpdateTime // ignore: cast_nullable_to_non_nullable
+as DateTime,global: null == global ? _self.global : global // ignore: cast_nullable_to_non_nullable
+as bool,url: freezed == url ? _self.url : url // ignore: cast_nullable_to_non_nullable
+as String?,order: freezed == order ? _self.order : order // ignore: cast_nullable_to_non_nullable
+as int?,
+  ));
+}
+
+}
+
+
+/// Adds pattern-matching-related methods to [OverrideItem].
+extension OverrideItemPatterns on OverrideItem {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _Override value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _Override() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _Override value)  $default,){
+final _that = this;
+switch (_that) {
+case _Override():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _Override value)?  $default,){
+final _that = this;
+switch (_that) {
+case _Override() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int id,  String label,  OverrideType ext,  DateTime lastUpdateTime,  bool global,  String? url,  int? order)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _Override() when $default != null:
+return $default(_that.id,_that.label,_that.ext,_that.lastUpdateTime,_that.global,_that.url,_that.order);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int id,  String label,  OverrideType ext,  DateTime lastUpdateTime,  bool global,  String? url,  int? order)  $default,) {final _that = this;
+switch (_that) {
+case _Override():
+return $default(_that.id,_that.label,_that.ext,_that.lastUpdateTime,_that.global,_that.url,_that.order);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int id,  String label,  OverrideType ext,  DateTime lastUpdateTime,  bool global,  String? url,  int? order)?  $default,) {final _that = this;
+switch (_that) {
+case _Override() when $default != null:
+return $default(_that.id,_that.label,_that.ext,_that.lastUpdateTime,_that.global,_that.url,_that.order);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class _Override implements OverrideItem {
+  const _Override({required this.id, required this.label, this.ext = OverrideType.yaml, required this.lastUpdateTime, this.global = false, this.url, this.order});
+  factory _Override.fromJson(Map<String, dynamic> json) => _$OverrideFromJson(json);
+
+@override final  int id;
+@override final  String label;
+@override@JsonKey() final  OverrideType ext;
+@override final  DateTime lastUpdateTime;
+@override@JsonKey() final  bool global;
+@override final  String? url;
+@override final  int? order;
+
+/// Create a copy of OverrideItem
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$OverrideCopyWith<_Override> get copyWith => __$OverrideCopyWithImpl<_Override>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$OverrideToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _Override&&(identical(other.id, id) || other.id == id)&&(identical(other.label, label) || other.label == label)&&(identical(other.ext, ext) || other.ext == ext)&&(identical(other.lastUpdateTime, lastUpdateTime) || other.lastUpdateTime == lastUpdateTime)&&(identical(other.global, global) || other.global == global)&&(identical(other.url, url) || other.url == url)&&(identical(other.order, order) || other.order == order));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode {
+    return Object.hash(runtimeType,id,label,ext,lastUpdateTime,global,url,order);
+}
+
+@override
+String toString() {
+    return 'OverrideItem(id: $id, label: $label, ext: $ext, lastUpdateTime: $lastUpdateTime, global: $global, url: $url, order: $order)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$OverrideCopyWith<$Res> implements $OverrideItemCopyWith<$Res> {
+  factory _$OverrideCopyWith(_Override value, $Res Function(_Override) _then) = __$OverrideCopyWithImpl;
+@override @useResult
+$Res call({
+ int id, String label, OverrideType ext, DateTime lastUpdateTime, bool global, String? url, int? order
+});
+
+
+
+
+}
+/// @nodoc
+class __$OverrideCopyWithImpl<$Res>
+    implements _$OverrideCopyWith<$Res> {
+  __$OverrideCopyWithImpl(this._self, this._then);
+
+  final _Override _self;
+  final $Res Function(_Override) _then;
+
+/// Create a copy of OverrideItem
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? label = null,Object? ext = null,Object? lastUpdateTime = null,Object? global = null,Object? url = freezed,Object? order = freezed,}) {
+  return _then(_Override(
+id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
+as int,label: null == label ? _self.label : label // ignore: cast_nullable_to_non_nullable
+as String,ext: null == ext ? _self.ext : ext // ignore: cast_nullable_to_non_nullable
+as OverrideType,lastUpdateTime: null == lastUpdateTime ? _self.lastUpdateTime : lastUpdateTime // ignore: cast_nullable_to_non_nullable
+as DateTime,global: null == global ? _self.global : global // ignore: cast_nullable_to_non_nullable
+as bool,url: freezed == url ? _self.url : url // ignore: cast_nullable_to_non_nullable
+as String?,order: freezed == order ? _self.order : order // ignore: cast_nullable_to_non_nullable
+as int?,
+  ));
+}
+
+
+}
+
 /// @nodoc
 mixin _$ClashProvider {
 

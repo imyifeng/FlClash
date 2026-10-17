@@ -241,6 +241,7 @@ abstract class MigrationData with _$MigrationData {
     Map<String, Object?>? configMap,
     @Default([]) List<Rule> rules,
     @Default([]) List<Script> scripts,
+    @Default([]) List<OverrideItem> overrides,
     @Default([]) List<Profile> profiles,
     @Default([]) List<DisabledRule> disabledRules,
     @Default([]) List<ProxyGroup> proxyGroups,
@@ -267,5 +268,9 @@ abstract class SetupState with _$SetupState {
     @Default([]) List<CustomProxy> appProxies,
     @Default({}) Map<int, String> proxyDialers,
     String? matchTarget,
+
+    /// Global overrides first, then the profile's own, both in the master list
+    /// order and deduplicated.
+    @Default([]) List<OverrideItem> overrideChain,
   }) = _SetupState;
 }

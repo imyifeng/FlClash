@@ -768,6 +768,8 @@ extension RulePayloadErrorExt on RulePayloadError {
 
 enum ExtendType { standard, script }
 
+enum OverrideType { yaml, javascript }
+
 enum RuleTarget {
   DIRECT('DIRECT'),
   REJECT('REJECT'),
@@ -817,6 +819,7 @@ enum QueryTag { proxies, access }
 enum LoadingTag {
   profiles,
   scripts,
+  overrides,
   ruleProviders,
   iconSets,
   backup_restore,

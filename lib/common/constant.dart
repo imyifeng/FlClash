@@ -136,6 +136,7 @@ const stringListEquality = ListEquality<String>();
 const intListEquality = ListEquality<int>();
 const ruleListEquality = ListEquality<Rule>();
 const scriptListEquality = ListEquality<Script>();
+const overrideListEquality = ListEquality<OverrideItem>();
 const profileListEquality = ListEquality<Profile>();
 const proxyGroupsEquality = ListEquality<ProxyGroup>();
 const customProxiesEquality = ListEquality<CustomProxy>();
@@ -177,6 +178,17 @@ const scriptTemplate = '''
 const main = (config) => {
   return config;
 }''';
+
+const overrideYamlTemplate = '''
+# Deep-merged into the profile. A plain key deep-merges maps and replaces
+# every other value, arrays included.
+#   +rules:  prepend to the rules list
+#   rules+:  append to the rules list
+#   dns!:    replace the whole dns section
+#   <key>:   the literal key, for a name that starts or ends with +
+# Example:
+# +rules:
+#   - DOMAIN,example.com,DIRECT''';
 
 const backupDatabaseName = 'database.sqlite';
 const configJsonName = 'config.json';

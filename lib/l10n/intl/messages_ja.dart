@@ -715,6 +715,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "geoUpdated": m28,
     "geodataLoader": MessageLookupByLibrary.simpleMessage("Geo低メモリモード"),
     "global": MessageLookupByLibrary.simpleMessage("グローバル"),
+    "globalOverridesAlwaysApply": MessageLookupByLibrary.simpleMessage(
+      "グローバル上書きはすべてのプロファイルに適用されます",
+    ),
     "go": MessageLookupByLibrary.simpleMessage("開く"),
     "goDownload": MessageLookupByLibrary.simpleMessage("ダウンロードへ"),
     "goToConfigureAddedRules": MessageLookupByLibrary.simpleMessage(
@@ -1031,6 +1034,10 @@ class MessageLookup extends MessageLookupByLibrary {
       "安全な接続に失敗しました。サーバー証明書が無効か、接続が傍受されている可能性があります",
     ),
     "networkType": MessageLookupByLibrary.simpleMessage("ネットワーク種別"),
+    "newJavaScriptOverride": MessageLookupByLibrary.simpleMessage(
+      "新規JavaScript上書き",
+    ),
+    "newYamlOverride": MessageLookupByLibrary.simpleMessage("新規YAML上書き"),
     "nextMatch": MessageLookupByLibrary.simpleMessage("次の一致"),
     "no": MessageLookupByLibrary.simpleMessage("いいえ"),
     "noData": MessageLookupByLibrary.simpleMessage("データがありません"),
@@ -1080,6 +1087,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "outboundExit": MessageLookupByLibrary.simpleMessage("出口"),
     "outboundIp": MessageLookupByLibrary.simpleMessage("アウトバウンド IP"),
     "outboundMode": MessageLookupByLibrary.simpleMessage("アウトバウンドモード"),
+    "override": MessageLookupByLibrary.simpleMessage("上書き"),
     "overrideDestination": MessageLookupByLibrary.simpleMessage("宛先を上書き"),
     "overrideDestinationDesc": MessageLookupByLibrary.simpleMessage(
       "宛先を上書きすると、元のアドレスではなく検出したドメインに接続します。",
@@ -1095,6 +1103,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "pickFromAlbum": MessageLookupByLibrary.simpleMessage("アルバムから選択"),
     "pinWindow": MessageLookupByLibrary.simpleMessage("最前面に固定"),
     "pleaseBindWebDAV": MessageLookupByLibrary.simpleMessage("WebDAVを連携してください"),
+    "pleaseEnterOverrideName": MessageLookupByLibrary.simpleMessage(
+      "上書き名を入力してください",
+    ),
     "pleaseEnterScriptName": MessageLookupByLibrary.simpleMessage(
       "スクリプト名を入力してください",
     ),

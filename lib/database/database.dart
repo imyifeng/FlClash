@@ -17,6 +17,7 @@ part 'dialers.dart';
 part 'generated/database.g.dart';
 part 'groups.dart';
 part 'icons.dart';
+part 'overrides.dart';
 part 'profiles.dart';
 part 'rules.dart';
 part 'scripts.dart';
@@ -25,6 +26,7 @@ part 'scripts.dart';
   tables: [
     Profiles,
     Scripts,
+    Overrides,
     Rules,
     DisabledRules,
     ProxyGroups,
@@ -37,6 +39,7 @@ part 'scripts.dart';
   daos: [
     ProfilesDao,
     ScriptsDao,
+    OverridesDao,
     RulesDao,
     ProxyGroupsDao,
     IconRecordsDao,
@@ -50,7 +53,7 @@ class Database extends _$Database {
   Database([QueryExecutor? executor]) : super(executor ?? _openConnection());
 
   @override
-  int get schemaVersion => 20;
+  int get schemaVersion => 21;
 
   static LazyDatabase _openConnection() {
     return LazyDatabase(() async {
@@ -110,6 +113,10 @@ class Database extends _$Database {
             customProxies,
             customProxies.emptyOptions,
           );
+        }
+        if (from < 21) {
+          await _createTableIfMissing(m, overrides);
+          await _addColumnIfMissing(m, profiles, profiles.overrideIds);
         }
       }),
       beforeOpen: (_) => customStatement('PRAGMA foreign_keys = ON'),
@@ -401,6 +408,7 @@ class Database extends _$Database {
   Future<void> restore(
     List<Profile> profiles,
     List<Script> scripts,
+    List<OverrideItem> overrides,
     List<Rule> rules,
     List<DisabledRule> disabledRules,
     List<ProxyGroup> proxyGroups, {
@@ -411,6 +419,7 @@ class Database extends _$Database {
   }) async {
     if (profiles.isEmpty &&
         scripts.isEmpty &&
+        overrides.isEmpty &&
         rules.isEmpty &&
         disabledRules.isEmpty &&
         proxyGroups.isEmpty &&
@@ -426,6 +435,7 @@ class Database extends _$Database {
         if (isOverride) {
           profilesDao.setAllWithBatch(b, profiles);
           scriptsDao.setAllWithBatch(b, scripts);
+          overridesDao.setAllWithBatch(b, overrides);
           rulesDao.setAllWithBatch(b, rules, disabledRules);
           proxyGroupsDao.setAllWithBatch(b, proxyGroups);
           customProxiesDao.setAllWithBatch(b, customProxies);
@@ -439,6 +449,7 @@ class Database extends _$Database {
           profiles.map((item) => item.toCompanion()),
         );
         scriptsDao.putAllWithBatch(b, scripts);
+        overridesDao.putAllWithBatch(b, overrides);
         rulesDao.putAllWithBatch(b, rules, disabledRules);
         proxyGroupsDao.putAllWithBatch(b, proxyGroups);
         customProxiesDao.putAllWithBatch(b, customProxies);
